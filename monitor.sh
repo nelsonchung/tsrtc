@@ -1,5 +1,14 @@
 #/bin/bash
 
+#加個顏色
+COLOR_REST='\e[0m' 
+COLOR_GREEN='\e[0;32m'; 
+COLOR_RED='\e[0;31m';
+COLOR_YELLOW='\e[0;33m';
+COLOR_WHITE='\e[4;37m';
+COLOR_LIGHT_WHITE='\e[1;37m';
+#https://blog.longwin.com.tw/2015/02/bash-shell-color-display-2015/
+
 python crawl.py
 
 datafile="datafile.txt"
@@ -13,10 +22,11 @@ while read stocknumberinfo
 do
     #echo $pathname$stocknumberinfo
     #echo $stocknumberinfo
-    basename $stocknumberinfo ".csv"
+    stocknumber=`basename $stocknumberinfo ".csv"`
+    echo -e "${COLOR_WHITE}$stocknumber${COLOR_REST}"
     #cat $pathname$stocknumberinfo | tail -n 1 #always output latest one
     data_info=`cat $pathname$stocknumberinfo | tail -n 1`
-    echo $data_info
+    #echo -e "${COLOR_LIGHT_WHITE}$data_info${COLOR_REST}"
     nowtime=`echo $data_info | awk -F ',' '{print $1}'`
     #echo $nowtime
     nowprice=`echo $data_info | awk -F "," '{print $2}'`
@@ -69,7 +79,12 @@ do
 
 
     #print information
-    #加個顏色
-    #https://blog.longwin.com.tw/2015/02/bash-shell-color-display-2015/
-    echo "成交價: "$nowprice" at "$nowtime" with "$nowquantity" 張" 
+    echo -e "成交價: "${COLOR_YELLOW}$nowprice${COLOR_REST}" at "${COLOR_YELLOW}$nowtime${COLOR_REST}" with "${COLOR_YELLOW}$nowquantity${COLOR_REST}" 張" 
+    echo -e "${COLOR_GREEN}\t賣價${COLOR_REST}\t${COLOR_RED}買價${COLOR_REST}"
+    echo -e "${COLOR_GREEN}$sellprice_quantity_a\t$sellprice_a${COLOR_REST}\t${COLOR_RED}$buyprice_a\t$buyprice_quantity_a${COLOR_REST}"
+    echo -e "${COLOR_GREEN}$sellprice_quantity_b\t$sellprice_b${COLOR_REST}\t${COLOR_RED}$buyprice_b\t$buyprice_quantity_b${COLOR_REST}"
+    echo -e "${COLOR_GREEN}$sellprice_quantity_c\t$sellprice_c${COLOR_REST}\t${COLOR_RED}$buyprice_c\t$buyprice_quantity_c${COLOR_REST}"
+    echo -e "${COLOR_GREEN}$sellprice_quantity_d\t$sellprice_d${COLOR_REST}\t${COLOR_RED}$buyprice_d\t$buyprice_quantity_d${COLOR_REST}"
+    echo -e "${COLOR_GREEN}$sellprice_quantity_e\t$sellprice_e${COLOR_REST}\t${COLOR_RED}$buyprice_e\t$buyprice_quantity_e${COLOR_REST}"
+    echo -e "=============================================================================================================================="
 done < $datafile
