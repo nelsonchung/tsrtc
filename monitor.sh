@@ -1,5 +1,7 @@
 #/bin/bash
 
+mkdir -p data
+
 #加個顏色
 COLOR_REST='\e[0m' 
 COLOR_GREEN='\e[0;32m'; 
